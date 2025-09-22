@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>SSOMA – Turno 06:30</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{--verde:#00ff41;--negro:#0d0d0d;--rojo:#ff0044;}
+  body{background:var(--negro);color:var(--verde);font-family:Arial,Helvetica,sans-serif;
+       display:flex;flex-direction:column;align-items:center;justify-content:center;
+       min-height:100vh;margin:0;text-align:center;padding:10px;}
+  h1{font-size:1.4em;margin:.3em 0}
+  p{font-size:1em;line-height:1.3em;margin:.5em 0}
+  .btn{background:var(--verde);color:var(--negro);border:none;padding:12px 24px;
+       margin:8px;font-size:1.1em;cursor:pointer;border-radius:4px;width:240px;}
+  .btn:hover{opacity:.8}
+  .oculto{display:none}
+  #final img{max-width:90%;border:2px solid var(--verde);}
+  .rojo{color:var(--rojo)}
+  input[type=text]{padding:10px;font-size:1em;border:1px solid var(--verde);
+                  background:transparent;color:var(--verde);border-radius:4px;text-align:center}
+  #leaderboard{text-align:left;margin-top:15px}
+</style>
+</head>
+<body>
+
+<!-- NODO 0 – INICIO / NOMBRE -->
+<div id="n0">
+  <h1>Turno 06:30 – Salón VIP</h1>
+  <p>¿Cuál es tu nombre?</p>
+  <input id="nombre" type="text" placeholder="Tu nombre" maxlength="12">
+  <button class="btn" onclick="empezar()">Comenzar</button>
+</div>
+
+<!-- NODO 1 – BRIEFING -->
+<div id="n1" class="oculto">
+  <h1>Buenos días, <span id="nombretxt"></span></h1>
+  <p>La jefa no llegó. Tú controlas el VIP. Hoy: vuelo charter de un equipo de fútbol.</p>
+  <p>¿Por dónde empiezas tu recorrido?</p>
+  <button class="btn" onclick="ir('n2')">Barra de café</button>
+  <button class="btn" onclick="ir('n3')">Recepción</button>
+  <button class="btn" onclick="ir('n4')">Salón principal</button>
+  <button class="btn" onclick="ir('n5')">Cocina (cónica)</button>
+  <button class="btn" onclick="ir('n6')">Oficina</button>
+  <button class="btn" onclick="ir('n7')">Almacén (-4 pisos)</button>
+</div>
+
+<!-- ===== BARRA ===== -->
+<div id="n2" class="oculto">
+  <h1>Barra – Estación 2</h1>
+  <p>Ves un cable de audio cruzando el pasillo entre las estaciones de café.</p>
+  <p>El termómetro de baterías marca 6 °C en la leche.</p>
+  <button class="btn" onclick="sumar(-10);ir('n2a')">Ignorar y seguir</button>
+  <button class="btn" onclick="sumar(10);ir('n2b')">Colocar señal + verificar temp</button>
+</div>
+<div id="n2a" class="oculto">
+  <h1 class="rojo">CRASH</h1>
+  <p>Passenger trip + hot coffee burn. Social media explota.</p>
+  <img src="https://i.imgur.com/8pCFd3H.jpeg">
+  <button class="btn" onclick="ir('n1')">Volver</button>
+</div>
+<div id="n2b" class="oculto">
+  <p>Correcto. Zona segura. Siguiente área:</p>
+  <button class="btn" onclick="ir('n3')">Recepción</button>
+  <button class="btn" onclick="ir('n5')">Cocina</button>
+</div>
+
+<!-- ===== RECEPCIÓN ===== -->
+<div id="n3" class="oculto">
+  <h1>Recepción – Podio</h1>
+  <p>Panel digital parpadea rojo. Pasajero VIP exige ingreso inmediato.</p>
+  <button class="btn" onclick="sumar(-10);ir('n3a')">Dar paso sin verificar vuelo</button>
+  <button class="btn" onclick="sumar(10);ir('n3b')">Resetear panel + validar</button>
+</div>
+<div id="n3a" class="oculto">
+  <p>Acceso equivocado → seguridad cierra área 20 min.</p>
+  <button class="btn" onclick="ir('n1')">Continuar</button>
+</div>
+<div id="n3b" class="oculto">
+  <p>Panel restablecido. VIP agradecido.</p>
+  <button class="btn" onclick="ir('n4')">Salón</button>
+</div>
+
+<!-- ===== SALÓN PRINCIPAL ===== -->
+<div id="n4" class="oculto">
+  <h1>Salón – Zona niños</h1>
+  <p>Niño corre. Vidrio en mesa baja roto. Padre distraído.</p>
+  <button class="btn" onclick="sumar(-10);ir('n4a')">Seguir de largo</button>
+  <button class="btn" onclick="sumar(10);ir('n4b')">Aíslas zona + llamas limpieza</button>
+</div>
+<div id="n4a" class="oculto">
+  <p>Niño cae → corte profundo → ambulancia.</p>
+  <img src="https://i.imgur.com/lNw8g9L.jpeg">
+  <button class="btn" onclick="ir('n1')">Volver</button>
+</div>
+<div id="n4b" class="oculto">
+  <p>Zona aislada. Riesgo controlado.</p>
+  <button class="btn" onclick="ir('n5')">Cocina</button>
+</div>
+
+<!-- ===== COCINA (CÓNICA) ===== -->
+<div id="n5" class="oculto">
+  <h1>Cocina – Hornos</h1>
+  <p>Producto congelado sin etiqueta de alérgenos. Hora de servir en 15 min.</p>
+  <button class="btn" onclick="sumar(-10);ir('n5a')">Usar igual → tiempo</button>
+  <button class="btn" onclick="sumar(10);ir('n5b')">Retener → buscar etiqueta → avisar chef</button>
+</div>
+<div id="n5a" class="oculto">
+  <p>Pasajero con alergia → reacción → epinefrina.</p>
+  <button class="btn" onclick="ir('n1')">Volver</button>
+</div>
+<div id="n5b" class="oculto">
+  <p>Platillo sustituido. Chef feliz.</p>
+  <button class="btn" onclick="ir('n6')">Oficina</button>
+</div>
+
+<!-- ===== OFICINA ===== -->
+<div id="n6" class="oculto">
+  <h1>Oficina – PC</h1>
+  <p>Email: “Soy tu jefa. Abre adjunto para nuevos protocolos.” (remitente raro)</p>
+  <button class="btn" onclick="sumar(-15);ir('n6a')">Abrir archivo</button>
+  <button class="btn" onclick="sumar(10);ir('n6b')">Verificar remitente → ignorar</button>
+</div>
+<div id="n6a" class="oculto">
+  <p>Malware → cámaras apagadas 30 min → incidentes no registrados.</p>
+  <button class="btn" onclick="ir('n1')">Volver</button>
+</div>
+<div id="n6b" class="oculto">
+  <p>Evitas ataque. Sistema seguro.</p>
+  <button class="btn" onclick="ir('n7')">Almacén</button>
+</div>
+
+<!-- ===== ALMACÉN ===== -->
+<div

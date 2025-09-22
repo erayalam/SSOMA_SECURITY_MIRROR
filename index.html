@@ -22,13 +22,25 @@
 </style>
 </head>
 <body>
-
+<script>
+function ir(nodo){
+  document.querySelectorAll('body > div').forEach(d=>d.classList.add('oculto'));
+  document.getElementById(nodo).classList.remove('oculto');
+}
+function comenzar(){
+  let n = document.getElementById('nombre').value.trim();
+  if(n===''){alert('Escribe tu nombre');return;}
+  localStorage.setItem('nombre',n);
+  document.getElementById('nombretxt').innerText=n;
+  ir('n1');          // ← pantalla siguiente
+}
+</script>
 <!-- NODO 0 – INICIO / NOMBRE -->
 <div id="n0">
   <h1>Turno 06:30 – Salón VIP</h1>
   <p>¿Cuál es tu nombre?</p>
   <input id="nombre" type="text" placeholder="Tu nombre" maxlength="12">
-  <button class="btn" onclick="empezar()">Comenzar</button>
+  <button class="btn" onclick="comenzar()">Comenzar</button>
 </div>
 
 <!-- NODO 1 – BRIEFING -->
@@ -131,4 +143,5 @@
 
 <!-- ===== ALMACÉN ===== -->
 <div
+
 
